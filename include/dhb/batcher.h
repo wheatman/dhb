@@ -1,6 +1,6 @@
 #pragma once
 
-#include <dhb/graph.h>
+#include "dhb/graph.h"
 
 #include <algorithm>
 #include <assert.h>
@@ -10,7 +10,7 @@
 #include <tuple>
 
 #include <atomic>
-#include <dhb/block.h>
+#include "dhb/block.h"
 
 
 

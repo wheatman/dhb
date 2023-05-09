@@ -46,9 +46,27 @@ Edge invalidEdge();
 Target invalidTarget();
 
 namespace graph {
-Vertex vertex_count(Edges const& edges);
-Edge into(Vertex source, Target const&);
-Target into(Edge const&);
+inline Vertex vertex_count(Edges const& edges) {
+    // Determine n as the maximal node ID.
+    Vertex n = 0;
+    for (Edge const& edge : edges) {
+        Vertex const vertex = std::max(edge.source, edge.target.vertex);
+        n = std::max(n, vertex);
+    }
+
+    n += 1;
+    return n;
+}
+inline Edge into(Vertex source, Target const&);
+inline Target into(Edge const&);
 } // namespace graph
+
+inline Vertex invalidVertex() { return std::numeric_limits<Vertex>::max(); }
+inline Weight invalidWeight() { return std::numeric_limits<float>::infinity(); }
+inline EdgeID invalidEdgeID() { return std::numeric_limits<EdgeID>::max(); }
+
+inline Edge invalidEdge() { return Edge(invalidVertex(), invalidTarget()); }
+
+inline Target invalidTarget() { return {invalidVertex(), {invalidWeight(), invalidEdgeID()}}; }
 
 } // namespace dhb

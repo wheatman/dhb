@@ -1,9 +1,9 @@
 #pragma once
 
-#include <dhb/batcher.h>
-#include <dhb/block.h>
-#include <dhb/buckets.h>
-#include <dhb/graph.h>
+#include "dhb/batcher.h"
+#include "dhb/block.h"
+#include "dhb/buckets.h"
+#include "dhb/graph.h"
 
 #include <cassert>
 #include <functional>
@@ -14,7 +14,16 @@
 
 namespace dhb {
 
-std::vector<Degree> degrees_from(Edges const&);
+inline std::vector<Degree> degrees_from(Edges const& edges) {
+    unsigned int count = graph::vertex_count(edges);
+    std::vector<Degree> associated_degree(count, 0u);
+
+    for (Edge const& edge : edges) {
+        associated_degree[edge.source]++;
+    }
+
+    return associated_degree;
+}
 
 template <typename E> struct Matrix {
   public:
@@ -49,7 +58,7 @@ template <typename E> struct Matrix {
             BlockState<E> new_block{new_bhandle, state};
             auto result = new_block.insert(v, ed);
 
-            auto old_block = std::move(m_g->m_vertices[m_u]);
+            [[maybe_unused]] auto old_block = std::move(m_g->m_vertices[m_u]);
             auto old_bhandle = m_g->m_handles[m_u];
             m_g->m_vertices[m_u] = std::move(new_block);
             m_g->m_handles[m_u] = new_bhandle;

@@ -1,7 +1,7 @@
 #pragma once
 
-#include <dhb/graph.h>
-#include <dhb/integer_log2.h>
+#include "dhb/graph.h"
+#include "dhb/integer_log2.h"
 
 #include <algorithm>
 #include <cassert>
@@ -85,7 +85,7 @@ class BlockArray {
   public:
     BlockArray(unsigned int bytes_per_entry, unsigned int bsize, BlockCache* cache,
                unsigned int age)
-        : m_age{age}, m_bytes_per_entry(bytes_per_entry), m_cache(cache), m_bsize(bsize) {
+        : m_cache(cache), m_age{age}, m_bytes_per_entry(bytes_per_entry), m_bsize(bsize) {
         const size_t min_capacity = 0x200000; // 2 MiB.
         const size_t min_blocks = 10;
         size_t allocation_per_block;
